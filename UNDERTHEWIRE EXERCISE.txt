@@ -1,0 +1,175 @@
+UNDERTHEWIRE EXERCISE
+
+Century 1 -> Century 2
+https://underthewire.tech/century/century1.htm
+
+The password for Century2 is the build version of the instance of PowerShell installed on this system.
+
+NOTE:
+
+The format is as follows: .*.***.****
+Include all periods
+Be sure to look for build version and NOT PowerShell version
+I log in with:
+
+# First accept the host key if you have not before:
+echo y | plink century1@century.underthewire.tech -pw century1 "exit" 2>&1>$nil
+
+# Now log in properly
+plink century1@century.underthewire.tech -pw century1 -batch
+Once logged in, I run the command:
+
+echo $PSVersionTable
+This will display the BuildVersion.
+
+We can narrow this down like so:
+
+($PSVersionTable.BuildVersion).ToString()
+With that info, can determine the credentials for the next level:
+
+| century2 | 10.0.14393.3866 |
+
+Century 2 -> Century 3
+https://underthewire.tech/century/century2.htm
+
+The password for Century3 is the name of the built-in cmdlet that performs the wget like function within PowerShell PLUS the name of the file on the desktop.
+
+I log in with:
+
+# First accept the host key if you have not before:
+echo y | plink century2@century.underthewire.tech -pw '10.0.14393.3866' "exit" 2>&1>$nil
+
+# Now log in properly
+plink century2@century.underthewire.tech -pw century2 -batch
+On Linux:
+
+sshpass -p '10.0.14393.3866' ssh century2@century.underthewire.tech
+I can tell that the built-in cmdlet that performs the wget like function within PowerShell is:
+
+Invoke-WebRequest
+Once logged in, I run the command:
+
+dir
+The output is:
+
+
+
+    Directory: C:\users\century2\desktop
+
+
+Mode                LastWriteTime         Length Name                                      
+----                -------------         ------ ----                                      
+-a----        8/30/2018   3:29 AM            693 443                                       
+
+
+With that info, we can determine the credentials for the next level:
+
+| century3 | invoke-webrequest443 |
+
+Century 3 -> Century 4
+https://underthewire.tech/century/century3.htm
+
+The password for Century4 is the number of files on the desktop.
+
+I log in with:
+
+plink century3@century.underthewire.tech -pw "invoke-webrequest443" -batch
+On Linux:
+
+    sshpass -p "invoke-webrequest443" ssh century3@century.underthewire.tech
+I run the following to get the count of files in the Desktop:
+
+(ls -File | Measure-Object).Count
+This value tells me the
+
+With that info, we can determine the credentials for the next level:
+
+| century4 | 123 |
+
+Century 4 -> Century 5
+https://underthewire.tech/century/century4.htm
+
+The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name.
+
+NOTE:
+
+The password will be lowercase no matter how it appears on the screen.
+I log in with:
+
+plink century4@century.underthewire.tech -pw "123" -batch
+On Linux:
+
+sshpass -p "123" ssh century4@century.underthewire.tech
+I ran the following to get the files in the directory that have spaces in the name:
+
+ls | Where { $_.Name -Match " " } | % { dir $_ | Select Name }
+With that info, we can determine the credentials for the next level:
+
+| century5 | 61580 |
+
+Century 5 -> Century 6
+https://underthewire.tech/century/century5.htm
+
+The password for Century6 is the short name of the domain in which this system resides in > PLUS the name of the file on the desktop.
+
+NOTE:
+
+If the short name of the domain is "blob" and the file on the desktop is named "1234", the > password would be "blob1234".
+The password will be lowercase no matter how it appears on the screen.
+I log in with:
+
+plink century5@century.underthewire.tech -pw "61580" -batch
+On Linux:
+
+sshpass -p "61580" ssh century5@century.underthewire.tech
+I ran the following to get the short domain name. I'm using some WMI here!
+
+(gwmi Win32_NTDomain).DomainName
+This returned underthewire. And to get the filename on the Desktop:
+
+ls
+# 3347
+With that info, we can determine the credentials for the next level:
+
+| century6 | underthewire3347 |
+
+Century 6 -> Century 7
+https://underthewire.tech/century/century6.htm
+
+The password for Century7 is the number of folders on the desktop.
+
+I log in with:
+
+plink century6@century.underthewire.tech -pw "underthewire3347" -batch
+On Linux:
+
+sshpass -p "underthewire3347" ssh century6@century.underthewire.tech
+With this command I could get the number of folders on the desktop.
+
+(ls -Directory | measure).Count
+197
+With that info, we can determine the credentials for the next level:
+
+| century7 | 197 |
+
+Century 7 -> Century 8
+https://underthewire.tech/century/century7.htm
+
+The password for Century8 is in a readme file somewhere within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user's profile.
+
+I log in with:
+
+plink century7@century.underthewire.tech -pw "197" -batch
+On Linux:
+
+sshpass -p "197" ssh century7@century.underthewire.tech
+I ran this to find the files in the directories.
+
+cd ..
+ls -Recurse 
+I found within Downloads, the Readme.txt file.
+
+C:\users\century7\Downloads\Readme.txt
+With that info, we can determine the credentials for the next level:
+
+| century8 | 7points |
