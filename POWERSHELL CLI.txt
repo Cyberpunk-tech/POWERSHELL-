@@ -1,0 +1,405 @@
+POWERSHELL CLI
+
+#RTFM
+
+Everybody needs a little help at one time or another. In this exercise we will check how you can get help on powershell and how you can find interesting commands following your needs.
+
+Open a PowerShell session in your terminal
+type Get-Help ;
+
+ PS C:\WINDOWS\system32> Get-Help
+
+TOPIC
+    Windows PowerShell Help System
+
+SHORT DESCRIPTION
+    Displays help about Windows PowerShell cmdlets and concepts.
+
+LONG DESCRIPTION
+    Windows PowerShell Help describes Windows PowerShell cmdlets,
+    functions, scripts, and modules, and explains concepts, including
+    the elements of the Windows PowerShell language.
+
+    Windows PowerShell does not include help files, but you can read the
+    help topics online, or use the Update-Help cmdlet to download help files
+    to your computer and then use the Get-Help cmdlet to display the help
+    topics at the command line.
+
+    You can also use the Update-Help cmdlet to download updated help files
+    as they are released so that your local help content is never obsolete.
+
+    Without help files, Get-Help displays auto-generated help for cmdlets,
+    functions, and scripts.
+
+------------------------------------------------------------------------------
+
+Find out what a command such as Get-Process does without looking on google.
+In PowerShell, the Get-Process cmdlet is used to retrieve information about the processes running on a Windows computer. It allows you to view a list of active processes, their associated properties, and various performance-related metrics.
+
+By running the Get-Process command, you will obtain a table displaying information such as the process ID (PID), name, CPU usage, memory usage, and start time of each process. This can be helpful for monitoring system performance, identifying resource-intensive processes, and troubleshooting issues related to specific applications or services.
+
+------------------------------------------------------------------------------
+Now try with - online ; 
+For more information about the Get-Help cmdlet, type:
+
+        Get-Help Get-Help -Online
+
+    or go to: http://go.microsoft.com/fwlink/?LinkID=113316
+
+------------------------------------------------------------------------------
+What does Get-command do ?
+In PowerShell, the Get-Command cmdlet is used to retrieve information about cmdlets, functions, scripts, and other executable commands available in the current PowerShell session or on the system.
+
+When you run Get-Command, it will return a list of all the commands that PowerShell can recognize and execute. This includes built-in cmdlets provided by PowerShell, as well as any additional cmdlets, functions, or scripts that have been loaded or defined within the session.
+
+The output of Get-Command includes various details about each command, such as the command name, command type (e.g., function, cmdlet), module name (if applicable), and the source of the command (e.g., a loaded module, a script).
+
+You can use different parameters with Get-Command to filter the results and narrow down your search. For example, you can specify a specific command name using the -Name parameter, or filter commands based on thei
+r command type using the -CommandType parameter (e.g., Function, Cmdlet, Script). 
+
+-------------------------------------------------------------------------------
+#NAVIGATION
+Print your current location > PS C:\WINDOWS\system32> Get-Location
+
+Path
+----
+C:\WINDOWS\system32
+
+------------------------------------------------------------------------------
+Print the content of your current directory > PS C:\WINDOWS\system32> Get-Childitem
+
+    Directory: C:\WINDOWS\system32
+
+
+Mode                 LastWriteTime         Length Name
+
+-------------------------------------------------------------------------------
+Print the content of your root (C: if you're running windows, / for linux) > PS C:\WINDOWS\system32>Get-ChildItem -Path C:\
+
+-------------------------------------------------------------------------------
+Go into your home folder (C:\Users\Username or /home/Username) > cd ~ or cd $HOME or cd $env:USERPROFILE
+
+-------------------------------------------------------------------------------
+Print the content of your home > Get-ChildItem $HOME
+
+-------------------------------------------------------------------------------
+Set-location , Get-location, Get-Childitem . Those commands are pretty long to type, do you know any shorter way to do it?
+
+Set-Location has the alias cd, so you can use cd instead.
+Get-Location has the alias gl, so you can use gl instead.
+Get-ChildItem has the alias ls or dir, so you can use ls or dir instead.
+Using these aliases, you can shorten the commands you mentioned. Here are the shortened versions:
+
+cd to change the location.
+gl to get the current location.
+ls or dir to list the contents of a directory.
+
+------------------------------------------------------------------------------
+POWERSHELL FILE OPERATIONS
+
+Create a file named story1.txt >
+To create a file named "story1.txt" using PowerShell, you can use the following command:
+
+New-Item -ItemType File -Name "story1.txt"
+This command uses the New-Item cmdlet to create a new item of type file (-ItemType File) with the specified name (-Name "story1.txt"). The file will be created in the current directory.
+
+After executing the command, you should find a new file named "story1.txt" in your current directory
+-------------------------------------------------------------------------------
+Type echo "Hello World" > story1.txt
+Print the content of the file > To print the content of a file in PowerShell, you can use the Get-Content cmdlet. Here's the command:
+
+Get-Content -Path "filename.txt"
+Replace "filename.txt" with the actual path and name of the file you want to print. This command will display the contents of the file in the PowerShell console.
+
+If you want to save the content of the file to a variable for further processing, you can do so as well. Here's an example:
+
+$content = Get-Content -Path "filename.txt"
+In this case, the file content will be stored in the $content variable, which you can use for subsequent operations.
+------------------------------------------------------------------------------
+Create a folder named story >
+To create a folder named "story" using PowerShell, you can use the following command:
+
+New-Item -ItemType Directory -Name "story"
+This command uses the New-Item cmdlet to create a new item of type directory (-ItemType Directory) with the specified name (-Name "story"). The folder will be created in the current directory.
+
+After executing the command, you should find a new folder named "story" in your current directory.
+------------------------------------------------------------------------------
+Move story1.txt inside story >
+Item cmdlet. Here's the command:
+
+Move-Item -Path "story1.txt" -Destination "story\story1.txt"
+This command moves the file "story1.txt" from the current directory to the "story" folder. The -Path parameter specifies the source file path, and the -Destination parameter specifies the destination path for the file.
+
+After executing the command, the file "story1.txt" will be moved inside the "story" folder. The file will now be located at the path "story\story1.txt".
+-----------------------------------------------------------------------------
+Copy story1.txt as story2.txt >
+ To copy the file "story1.txt" as "story2.txt" in PowerShell, you can use the Copy-Item cmdlet. Here's the command:
+
+Copy-Item -Path "story1.txt" -Destination "story2.txt"
+This command creates a copy of the file "story1.txt" and saves it as "story2.txt" in the same directory. The -Path parameter specifies the source file path, and the -Destination parameter specifies the destination path for the copied file.
+
+After executing the command, a new file named "story2.txt" will be created, which is an exact copy of the original "story1.txt" file.
+-----------------------------------------------------------------------------
+Print both files >
+To print the contents of both files "story1.txt" and "story2.txt" in PowerShell, you can use the Get-Content cmdlet. 
+
+Get-Content -Path "story1.txt", "story2.txt"
+This command retrieves the content of both files specified in the -Path parameter, separated by a comma. It will display the contents of both files in the PowerShell console.
+
+Make sure that both files exist in the current directory or provide the full path to the files if they are located in a different directory.
+----------------------------------------------------------------------------
+Rename story2.txt as me.txt >
+To rename the file "s tory2.txt" to "me.txt" in PowerShell, you can use the Rename-Item cmdlet. Here's the command:
+
+Rename-Item -Path "story2.txt" -NewName "me.txt"
+This command renames the file "story2.txt" to "me.txt" in the same directory. The -Path parameter specifies the current file path, and the -NewName parameter specifies the new name for the file.
+
+After executing the command, the file "story2.txt" will be renamed as "me.txt". Please note that if there is already a file named "me.txt" in the same directory, it will be overwritten by the renamed file.
+----------------------------------------------------------------------------
+Append me.txt and add "I am a junior at Becode">
+To append text to the file "me.txt" using PowerShell, you can use the Add-Content cmdlet. Here's the command:
+
+Add-Content -Path "me.txt" -Value "I am a junior at Becode"
+This command adds the specified value, "I am a junior at Becode," as a new line at the end of the file "me.txt" in the same directory. The -Path parameter specifies the file path, and the -Value parameter specifies the text to append.
+
+After executing the command, the text "I am a junior at Becode" will be appended to the file "me.txt". If the file does not exist, PowerShell will create it with the appended text.
+----------------------------------------------------------------------------
+Remove the folder story with it's content >
+
+To remove the folder "story" and its contents in PowerShell, you can use the Remove-Item cmdlet with the -Recurse parameter. Here's the command:
+
+Remove-Item -Path "story" -Recurse
+This command deletes the folder "story" and all its contents, including files and subdirectories. The -Path parameter specifies the path of the folder to be removed, and the -Recurse parameter ensures that all items within the folder are deleted as well.
+
+Please exercise caution when using the Remove-Item cmdlet with the -Recurse parameter, as it permanently deletes the specified folder and its contents without prompting for confirmation.
+----------------------------------------------------------------------------
+POWERSHELL PERMISSIONS
+
+Create a file > New-Item -ItemType File -Name "example.txt"
+This command creates a new file named "example.txt" in the current directory. The -ItemType parameter specifies the type of item to create, which in this case is a file (File). The -Name parameter specifies the name of the file.
+
+After executing the command, the "example.txt" file will be created in the current directory.
+----------------------------------------------------------------------------
+Check the owner and the groups > To check the owner and groups of a file using PowerShell, you can use the Get-Acl cmdlet. Here's an example command:
+
+(Get-Acl -Path "example.txt").Owner
+This command retrieves the Access Control List (ACL) of the file specified by the -Path parameter, in this case, "example.txt". The .Owner property is then accessed to obtain the owner of the file.
+
+To retrieve the groups associated with the file, you can use the following command:
+
+(Get-Acl -Path "example.txt").Group
+This command retrieves the ACL of the file and then accesses the .Group property to obtain the groups associated with the file.
+
+Please replace "example.txt" with the actual path and name of the file you want to check.
+-----------------------------------------------------------------------------
+Change the file owner to the built-in administrator (administrator account is disabled by default, check how to enable it. Don't forget to set a strong password!) > To change the file owner to the built-in administrator account using PowerShell, you can follow these steps:
+
+Step 1: Enable the Administrator Account (if disabled):
+By default, the built-in Administrator account is disabled in Windows. To enable it, you can run PowerShell as an administrator and execute the following command:
+
+Enable-LocalUser -Name "Administrator"
+This command will enable the built-in Administrator account.
+
+Step 2: Set a strong password for the Administrator account:
+To set a strong password for the Administrator account, run the following command:
+
+$adminAccount = [ADSI]"WinNT://./Administrator, user"
+$adminAccount.SetPassword("YourStrongPassword")
+Replace "YourStrongPassword" with the desired strong password for the Administrator account.
+
+Step 3: Change the file owner:
+To change the owner of the file to the Administrator account, you can use the Set-Acl cmdlet. Here's an example command:
+
+$filePath = "C:\Path\To\Your\File.txt"
+$adminAccount = New-Object System.Security.Principal.NTAccount("Administrator")
+$acl = Get-Acl -Path $filePath
+$acl.SetOwner($adminAccount)
+Set-Acl -Path $filePath -AclObject $acl
+Replace "C:\Path\To\Your\File.txt" with the actual path and filename of the file you want to change the owner for.
+
+After executing these steps, the file's owner will be changed to the Administrator account, provided that you have enabled the account and set a strong password.
+------------------------------------------------------------------------------
+Check the file's permission > To check the file's permissions in PowerShell, you can use the Get-Acl cmdlet. Here's an example command:
+
+Get-Acl -Path "C:\Path\To\Your\File.txt" | Format-List
+Replace "C:\Path\To\Your\File.txt" with the actual path and filename of the file you want to check the permissions for.
+
+This command retrieves the Access Control List (ACL) of the file and formats the output as a list to display detailed information about the file's permissions. The Format-List cmdlet is used to display the output in a readable format.
+
+After executing the command, you will see the permissions associated with the file, including the access control entries (ACEs) for different users and groups, along with their permissions and other details.
+-------------------------------------------------------------------------------
+Try to print the content of the file as your normal user >
+To print the content of a file as a normal user in PowerShell, you can use the Get-Content cmdlet. Here's an example command:
+
+Get-Content -Path "C:\Path\To\Your\File.txt"
+Replace "C:\Path\To\Your\File.txt" with the actual path and filename of the file you want to print the content of.
+
+Executing this command will display the contents of the file in the PowerShell console, assuming that your user account has the necessary read permissions to access the file.
+------------------------------------------------------------------------------
+Print the content of the file using administrator account > To print the content of a file using the Administrator account in PowerShell, you can use the Get-Content cmdlet along with the RunAs command to run PowerShell with elevated privileges. Here's an example command:
+
+Start-Process powershell.exe -Credential "Administrator" -ArgumentList "-Command Get-Content -Path 'C:\Path\To\Your\File.txt'"
+Replace "C:\Path\To\Your\File.txt" with the actual path and filename of the file you want to print the content of.
+
+When you run this command, it will open a new PowerShell window and prompt you to enter the password for the Administrator account. After providing the correct password, PowerShell will run with Administrator privileges and execute the Get-Content command to print the content of the file specified.
+
+Please note that you need to have administrative privileges and know the password for the Administrator account in order to execute commands as the Administrator user.
+------------------------------------------------------------------------------
+POWERSHELL PACKAGE MANAGEMENT
+
+Get Windows updates
+Install the PSWindowsUpdate module
+Type Get-WindowsUpdate to check for updates
+Type Install-WindowsUpdate to install updates >	To get and install Windows updates using PowerShell, you can follow these steps:
+
+Step 1: Install the PSWindowsUpdate module:
+First, you need to install the PSWindowsUpdate module if it is not already installed. Open PowerShell as an administrator and run the following command to install the module from the PowerShell Gallery:
+
+Install-Module -Name PSWindowsUpdate
+Step 2: Import the PSWindowsUpdate module:
+After installing the module, import it into your PowerShell session by running the following command:
+
+Import-Module -Name PSWindowsUpdate
+Step 3: Get Windows updates:
+To check for available Windows updates, you can use the Get-WindowsUpdate cmdlet. Run the following command to retrieve the available updates:
+
+Get-WindowsUpdate
+This command will display information about the available updates on your system.
+
+Step 4: Install Windows updates:
+To install the available Windows updates, you can use the Install-WindowsUpdate cmdlet. Run the following command to start the installation process:
+
+Install-WindowsUpdate -AcceptAll -AutoReboot
+The -AcceptAll parameter is used to automatically accept any applicable updates, and the -AutoReboot parameter will automatically reboot the system if required after the updates are installed.
+
+Please note that installing updates may require administrative privileges, and the installation process might take some time to complete
+--------------------------------------------------------------------------------
+Manage Packages
+Install Chocolatey
+Install VLC from Chocolatey
+Upgrade VLC to the latest version (it should already be but it's your first use)
+Remove the VLC package using Chocolatey
+Could you use Chocolatey on already installed software? How? > To manage packages using Chocolatey in PowerShell, you can follow these steps:
+
+Step 1: Install Chocolatey:
+First, you need to install Chocolatey if it is not already installed. Open PowerShell as an administrator and run the following command to install Chocolatey:
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Step 2: Install VLC from Chocolatey:
+To install VLC media player using Chocolatey, run the following command:
+
+choco install vlc
+This command will download and install VLC from the Chocolatey package repository.
+
+Step 3: Upgrade VLC to the latest version:
+To upgrade VLC to the latest version using Chocolatey, run the following command:
+
+choco upgrade vlc
+This command will check for the latest version of VLC available in the Chocolatey repository and upgrade it if a newer version is found.
+
+Step 4: Remove the VLC package using Chocolatey:
+To remove the VLC package using Chocolatey, run the following command:
+
+choco uninstall vlc
+This command will uninstall the VLC package from your system.
+
+Regarding already installed software, if you have software installed on your system that was not installed through Chocolatey, you can still manage it using Chocolatey by creating a package for it. Chocolatey provides a way to create custom packages for already installed software, allowing you to manage and update them through Chocolatey. However, this process involves more advanced steps, such as creating a package specification file. You can refer to the Chocolatey documentation for more information on creating custom packages for already installed software.
+---------------------------------------------------------------------------------
+Manage Windows Features
+Get installed windows features with the command Get-WindowsFeature
+Install a new feature such as hyper-v with Install-WindowsFeature > To manage Windows features using PowerShell, you can follow these steps:
+
+Step 1: Get installed Windows features:
+To retrieve a list of installed Windows features, you can use the Get-WindowsFeature cmdlet. Run the following command to display the installed features:
+
+Get-WindowsFeature
+This command will provide information about the currently installed Windows features on your system.
+
+Step 2: Install a new feature:
+To install a new feature, such as Hyper-V, you can use the Install-WindowsFeature cmdlet. Run the following command to install Hyper-V:
+
+Install-WindowsFeature -Name Hyper-V
+This command will install the Hyper-V feature on your system. You can replace "Hyper-V" with the name of the desired feature you want to install.
+
+Please note that installing or modifying Windows features may require administrative privileges, and you may need to restart your system for the changes to take effect.
+-------------------------------------------------------------------------------
+POWERSHELL ENVIRONMENT VARIABLES 
+Writing a script to report computer specs and convert it into a CSV file can be done in PowerShell. However, due to security restrictions, the script may not execute by default. This is because the default PowerShell execution policy is often set to "Restricted," which prevents the execution of scripts.
+
+To change the execution policy in a secure way, you can follow these steps:
+
+Step 1: Open PowerShell as an administrator:
+Right-click on the PowerShell icon and choose "Run as administrator" to open an elevated PowerShell session with administrative privileges.
+
+Step 2: Check the current execution policy:
+To check the current execution policy, run the following command:
+
+
+Get-ExecutionPolicy
+Step 3: Set a more permissive execution policy:
+To set a more permissive execution policy, such as "RemoteSigned" or "Unrestricted," run the following command:
+
+Set-ExecutionPolicy RemoteSigned
+or
+
+Set-ExecutionPolicy Unrestricted
+Choose the appropriate execution policy based on your security requirements.
+
+Step 4: Write the script:
+Write a PowerShell script to gather computer specs and save them to a CSV file. Here's an example script:
+
+# Get computer specs
+$computerName = $env:COMPUTERNAME
+$processor = (Get-WmiObject -Class Win32_Processor).Name
+$memory = (Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory
+$os = (Get-WmiObject -Class Win32_OperatingSystem).Caption
+
+# Create a custom object
+$computerSpecs = [PSCustomObject]@{
+    ComputerName = $computerName
+    Processor = $processor
+    Memory = $memory
+    OS = $os
+}
+
+# Convert to CSV and save to file
+$csvPath = "C:\Path\To\Output.csv"
+$computerSpecs | Export-Csv -Path $csvPath -NoTypeInformation
+Modify the script as needed to gather additional computer specs or customize the output.
+
+Step 5: Run the script:
+With the changed execution policy, you should be able to run the script without encountering execution errors. Execute the script by running the following command:
+
+.\YourScriptName.ps1
+Replace "YourScriptName.ps1" with the actual name of your script file.
+
+Step 6: Reset the execution policy (optional):
+After running the script, if you want to revert the execution policy to its previous setting for security purposes, you can run the following command:
+
+Set-ExecutionPolicy Restricted
+By resetting the execution policy to "Restricted," you ensure that only signed scripts from trusted sources can be executed, enhancing the security of your system.
+
+Remember to replace "C:\Path\To\Output.csv" with the desired path and filename where you want to save the CSV file containing the computer specs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
